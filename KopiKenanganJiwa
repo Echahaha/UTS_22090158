@@ -1,0 +1,163 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Random;
+import java.util.Scanner;
+
+public class KopiKenanganJiwa {
+    static String[] KopiLatte = new String[400];
+    static String[] KopiJiwa = new String[300];
+    static String[] KopiKenangan = new String[300];
+    static String[] KopiTanpaRasa = new String[250];
+
+    static int stok = KopiLatte.length + KopiJiwa.length + KopiKenangan.length + KopiTanpaRasa.length;
+    static int sisa = stok;
+
+    public static void main(String[] args) {
+        System.out.println("=========================================================\n\t\tProgram Pesan Kopi\n=========================================================");
+
+        pesan();
+    }
+
+    static void print_data_pesanan() {
+        int total_kopilatte = 0;
+        for (int i = 0; i < KopiLatte.length; i++) {
+            if (KopiLatte[i] != null) {
+                total_kopilatte++;
+            }
+        }
+
+        int total_kopijiwa = 0;
+        for (int i = 0; i < KopiJiwa.length; i++) {
+            if (KopiJiwa[i] != null) {
+                total_kopijiwa++;
+            }
+        }
+
+        int total_kopikenangan = 0;
+        for (int i = 0; i < KopiKenangan.length; i++) {
+            if (KopiKenangan[i] != null) {
+                total_kopikenangan++;
+            }
+        }
+
+        int total_kopitanparasa = 0;
+        for (int i = 0; i < KopiTanpaRasa.length; i++) {
+            if (KopiTanpaRasa[i] != null) {
+                total_kopitanparasa++;
+            }
+        }
+
+        sisa = stok - total_kopilatte - total_kopijiwa - total_kopikenangan - total_kopitanparasa;
+        System.out.println("\n=========================================================\n\t\tData Penjualan Kopi\n=========================================================");
+        System.out.println("Kopi Don't be Latte\t      : " + total_kopilatte + " Cup terjual | " + (KopiLatte.length-total_kopilatte) + " Cup tersisa");
+        System.out.println("Kopi Goncang Jiwa\t      : " + total_kopijiwa + " Cup terjual | " + (KopiJiwa.length-total_kopilatte) + " Cup tersisa");
+        System.out.println("Kopi Jalan Kenangan\t      : " + total_kopikenangan + " Cup terjual | " + (KopiKenangan.length-total_kopikenangan) + " Cup tersisa");
+        System.out.println("Kopi Pahit Tanpa Rasa : " + total_kopitanparasa + " Cup terjual | " + (KopiTanpaRasa.length-total_kopitanparasa) + " Cup tersisa" );
+
+        ArrayList<Integer> penjualan = new ArrayList<Integer>();
+        penjualan.add(total_kopilatte);
+        penjualan.add(total_kopijiwa);
+        penjualan.add(total_kopikenangan);
+        penjualan.add(total_kopitanparasa);
+
+        Collections.sort(penjualan, Collections.reverseOrder());
+
+        System.out.println("=========================================================");
+        System.out.println("\t\tKopi yang paling banyak disukai\n" );
+
+        if (total_kopilatte == penjualan.get(0)) {
+            System.out.println("- Kopi Don't be Latte");
+        }
+
+        if (total_kopijiwa == penjualan.get(0)) {
+            System.out.println("- Kopi Goncang Jiwa");
+        }
+
+        if (total_kopikenangan == penjualan.get(0)) {
+            System.out.println("- Kopi Jalan Kenangan");
+        }
+
+        if (total_kopitanparasa == penjualan.get(0)) {
+            System.out.println("- Kopi Pahit Tanpa Rasa");
+        }
+
+        System.out.println("=========================================================");
+        System.out.println("\t\tKopi yang paling tidak disukai\n");
+
+        if (total_kopilatte == penjualan.get(3)) {
+            System.out.println("- Kopi Don't be Latte");
+        }
+
+        if (total_kopijiwa == penjualan.get(3)) {
+            System.out.println("- Kopi Goncang Jiwa");
+        }
+
+        if (total_kopikenangan == penjualan.get(3)) {
+            System.out.println("- Kopi Jalan Kenangan");
+        }
+
+        if (total_kopitanparasa == penjualan.get(3)) {
+            System.out.println("- Kopi Pahit Tanpa Rasa");
+        }
+
+        System.out.println("=========================================================");
+        System.out.println("Total kopi yang terjual\t\t: " + (total_kopilatte + total_kopijiwa + total_kopikenangan + total_kopitanparasa) + " Cup");
+        System.out.println("Total sisa kopi\t\t\t: " + sisa + " Cup");
+        System.out.println("=========================================================");
+    }
+
+    static void cek_data_pesanan(String[] jenis, String pembeli) {
+        for (int i = 0; i < jenis.length; i++) {
+            if (jenis[i] == null) {
+                jenis[i] = pembeli;
+                break;
+            }
+        }
+    }
+
+    static void data_pesanan(int jenis, String nama){
+        System.out.print(nama + " memesan Kopi ");
+
+        switch (jenis) {
+            case 1:
+                cek_data_pesanan(KopiLatte, nama);
+                System.out.println("Kopi Don't be Latte");
+                break;
+            case 2:
+                cek_data_pesanan(KopiJiwa, nama);
+                System.out.println("Kopi Goncang jiwa");
+                break;
+            case 3:
+                cek_data_pesanan(KopiKenangan, nama);
+                System.out.println("Kopi Jalan Kenangan");
+                break;
+            case 4:
+                cek_data_pesanan(KopiTanpaRasa, nama);
+                System.out.println("Kopi Pahit Tanpa Rasa");
+                break;
+        }
+
+        print_data_pesanan();
+    }
+
+    static void pesan() {
+        try (Scanner pembeli = new Scanner(System.in)) {
+            while (true) {
+                System.out.print("\nnama pembeli : ");
+                String nama_pemebeli =  pembeli.nextLine();
+
+                if (nama_pemebeli.isBlank()) {
+                    System.out.println("nama pembeli wajib diisi");
+                    pesan();
+                }else if (sisa == 0) {
+                    System.out.println("Maaf semua kopi sudah habis");
+                    pesan();
+                }else{
+                    Random gacha = new Random();
+                    int jenisrandom = gacha.nextInt(4) + 1;
+                    data_pesanan(jenisrandom, nama_pemebeli);
+                }
+            }
+        }
+    }
+}
